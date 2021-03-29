@@ -73,8 +73,14 @@ function typeWrite (txt, element, keepUnderline, callback) {
   },800)
 }
 
-function insertInput (callback) {
-  
+function regularWrite (txt, element, keepUnderline, callback) {
+      element.textContent = txt
+      element.className = 'line'       
+      callback()
+}
+
+function insertInput (callback) {  
+  const rgx = new RegExp('[a-zA-Z0-9]','g')
   const p = document.createElement('p')
   p.className = 'line active'
   p.id = Math.floor(Math.random() * 100)
@@ -90,53 +96,59 @@ function insertInput (callback) {
       let option = input.textContent;
       input.className = 'line'
 
-      switch (option) {
+      switch (option.toLowerCase()) {
         case '':
         insertInput()
         break;
 
         case '1': 
-          insertNewLine(showExperiences(), 0, () => {
+          insertNewLine(showExperiences(), 2, 0, () => {
             input.className = 'line'
             insertInput()
           })
           break;
 
           case '2': 
-          insertNewLine(showSkills(), 0, () => {
+          insertNewLine(showSkills(), 2, 0, () => {
             input.className = 'line'
             insertInput()
           })
           break;
 
           case '3':
-          insertNewLine(showInfo(), 0, () => {
+          insertNewLine(showInfo(), 2, 0, () => {
             insertInput()
           }) 
           break;
 
           case 'exit': 
-          insertNewLine('Muito obrigado pela sua atenção!', 0, insertInput)
+          insertNewLine('Muito obrigado pela sua atenção!', 2, 0, insertInput)
           setTimeout(() => {
             window.close()
           }, 2500)
           break;
 
           default: 
-          insertNewLine('Opção inválida', 0, insertInput)
+          insertNewLine('Opção inválida', 0, 2, insertInput)
       }
 
     } else {
-      input.textContent += e.key
+      if(e.key.length === 1)
+        input.textContent += e.key
     }
   })
 }
 
-function insertNewLine (txt, keepUnderline, callback = () => {}) {
+function insertNewLine (txt, keepUnderline, typeOrRegular, callback = () => {}) {
     const p = document.createElement('p')
     p.className = 'line active'
     content.appendChild(p)
-    typeWrite(txt, p, keepUnderline, callback)
+    
+    if (typeOrRegular === 1) {
+      typeWrite(txt, p, keepUnderline, callback)
+    } else {
+      regularWrite(txt, p, keepUnderline, callback)
+    }
 }
 
 function showExperiences () {
@@ -153,7 +165,7 @@ function showSkills () {
   let txt = ''
 
   skills.forEach(({skill, level}) => {
-    txt += `${skill}:  ${level}`
+    txt += `${skill}:  ${level} `
   })
 
   return txt
@@ -163,10 +175,10 @@ function showInfo () {
   return 'Telefone:(51) 99419-4479 / Email: contato.guilhermeblanco@gmail.com / Github: github.com/guilhermesblanco'
 }
 
-insertNewLine (txt1, 0, () => {
-  insertNewLine(txt2, 0, () => {
-    insertNewLine(txt3, 0, () => {
-      insertNewLine(txt4, 0, () => {
+insertNewLine (txt1, 0, 1, () => {
+  insertNewLine(txt2, 0, 1, () => {
+    insertNewLine(txt3, 0, 1, () => {
+      insertNewLine(txt4, 0, 1, () => {
         insertInput(() => {})
       })
     })
