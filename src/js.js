@@ -2,7 +2,7 @@ const content = document.querySelector('[data-js="content"]')
 const txt1 = ' Olá, meu nome é Guilherme, tenho 26 anos e atualmente estudo Análise e desenvolvimento de sistemas.'
 const txt2 = ' Possuo experiência como programador na área de automação industrial.'
 const txt3 = ' Atualmente estou direcionando meus estudos para a área de Frontend, com as tecnologias React e Node.'
-const txt4 = ' O que você quer saber de mim? [1] Experiências profissionais, [2] Conhecimentos técnicos, [3] Informações de contato, [exit] Sair'
+const txt4 = ' O que você quer saber de mim? [1] Experiências profissionais, [2] Conhecimentos técnicos, [3] Formação, [4] Informações de contato, [exit] Sair'
 var inputId = 0
 
 const workExp = [
@@ -17,6 +17,16 @@ const workExp = [
     periodo: '2015 - 2015',
     atribuicoes: 'Rotina geral de departamento comercial, auditoria de vendas e prspecção de novos clientes'
   },
+]
+
+const graduation = [
+  {
+    course: "Análise e desenvolvimento de sistemas - Unisanta - 2020 - Atualmente",
+  },
+
+  {
+    course: "Técnico em Automação Industrial - Senai CETEMP - 2018 - 2019",
+  }
 ]
 
 const skills = [
@@ -83,18 +93,14 @@ function insertInput (callback) {
   const rgx = new RegExp('[a-zA-Z0-9]','g')
   const p = document.createElement('p')
   p.className = 'line active'
-  p.id = Math.floor(Math.random() * 100)
-  // p.style = 'display: inline;'
   content.appendChild(p)
-  var input = document.getElementById(p.id)
-
   document.addEventListener('keyup', function handleKey(e) {
     if (e.keyCode === 8) {
-      input.textContent = input.textContent.slice(0, -1)
+      p.textContent = p.textContent.slice(0, -1)
     }else if (e.keyCode === 13) {
       document.removeEventListener('keyup', handleKey)
-      let option = input.textContent;
-      input.className = 'line'
+      let option = p.textContent;
+      p.className = 'line'
 
       switch (option.toLowerCase()) {
         case '':
@@ -103,19 +109,25 @@ function insertInput (callback) {
 
         case '1': 
           insertNewLine(showExperiences(), 2, 0, () => {
-            input.className = 'line'
+            p.className = 'line'
             insertInput()
           })
           break;
 
           case '2': 
           insertNewLine(showSkills(), 2, 0, () => {
-            input.className = 'line'
+            p.className = 'line'
             insertInput()
           })
           break;
 
           case '3':
+          insertNewLine(showGraduation(), 2, 0, () => {
+            insertInput()
+          }) 
+          break;
+
+          case '4':
           insertNewLine(showInfo(), 2, 0, () => {
             insertInput()
           }) 
@@ -134,7 +146,7 @@ function insertInput (callback) {
 
     } else {
       if(e.key.length === 1)
-        input.textContent += e.key
+        p.textContent += e.key
     }
   })
 }
@@ -156,6 +168,16 @@ function showExperiences () {
 
   workExp.forEach(({nome, periodo, atribuicoes}) => {
     txt += `[ ${nome}, ${periodo}, ${atribuicoes} ]`
+  })
+
+  return txt
+}
+
+function showGraduation () {
+  let txt = ''
+
+  graduation.forEach(({course}) => {
+    txt += `${course}, `
   })
 
   return txt
