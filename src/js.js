@@ -1,9 +1,8 @@
 const content = document.querySelector('[data-js="content"]')
-const txt1 = ' Olá, meu nome é Guilherme, tenho 26 anos e atualmente estudo Análise e desenvolvimento de sistemas.'
-const txt2 = ' Possuo experiência como programador na área de automação industrial.'
-const txt3 = ' Atualmente estou direcionando meus estudos para a área de Frontend, com as tecnologias React e Node.'
-const txt4 = ' O que você quer saber de mim? [1] Experiências profissionais, [2] Conhecimentos técnicos, [3] Formação, [4] Informações de contato, [exit] Sair'
-var inputId = 0
+const txt1 = 'Olá, meu nome é Guilherme, tenho 26 anos e atualmente estudo Análise e desenvolvimento de sistemas.'
+const txt2 = 'Possuo experiência como programador na área de automação industrial.'
+const txt3 = 'Atualmente estou direcionando meus estudos para a área de Frontend, com as tecnologias React e Node.'
+const txt4 = 'O que você quer saber de mim? [1] Experiências profissionais, [2] Conhecimentos técnicos, [3] Formação, [4] Informações de contato, [exit] Sair'
 
 const workExp = [
   {
@@ -13,9 +12,9 @@ const workExp = [
   },
 
   {
-    nome: 'LT Telecom',
+    nome: 'LR Telecom',
     periodo: '2015 - 2015',
-    atribuicoes: 'Rotina geral de departamento comercial, auditoria de vendas e prspecção de novos clientes'
+    atribuicoes: 'Rotina geral de departamento comercial, auditoria de vendas e prospecção de novos clientes'
   },
 ]
 
@@ -61,7 +60,6 @@ const skills = [
   },
 
 ]
-
 
 function typeWrite (txt, element, keepUnderline, callback) {
   let i = 0
@@ -134,10 +132,11 @@ function insertInput (callback) {
           break;
 
           case 'exit': 
-          insertNewLine('Muito obrigado pela sua atenção!', 2, 0, insertInput)
+          insertNewLine('Muito obrigado pela sua atenção!', 2, 0, () => {
           setTimeout(() => {
             window.close()
           }, 2500)
+          })
           break;
 
           default: 
@@ -167,10 +166,10 @@ function showExperiences () {
   let txt = ''
 
   workExp.forEach(({nome, periodo, atribuicoes}) => {
-    txt += `[ ${nome}, ${periodo}, ${atribuicoes} ]`
+    txt += `${nome}, ${periodo}, ${atribuicoes}, `
   })
 
-  return txt
+  return txt.slice(0, -2)
 }
 
 function showGraduation () {
@@ -180,7 +179,7 @@ function showGraduation () {
     txt += `${course}, `
   })
 
-  return txt
+  return txt.slice(0, -2)
 }
 
 function showSkills () {
@@ -206,6 +205,3 @@ insertNewLine (txt1, 0, 1, () => {
     })
   })
 })
-
-
-

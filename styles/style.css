@@ -20,12 +20,18 @@ body {
     font-family: monospace;
 }
 
+p::selection {
+    background: white;
+    color: black;
+}
+
 .active {
     color: white;
 }
 
 .line:before {
-    content: '> '
+    content: '>';
+    margin-right: 5px;
 }
 
 .active:after {
