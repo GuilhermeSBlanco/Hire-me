@@ -73,12 +73,12 @@ function typeWrite (txt, element, keepUnderline, callback) {
   },800)
 }
 
-function insertInput (callback = () => {}) {
+function insertInput (callback) {
   
   const p = document.createElement('p')
   p.className = 'line active'
   p.id = Math.floor(Math.random() * 100)
-  p.style = 'display: inline;'
+  // p.style = 'display: inline;'
   content.appendChild(p)
   var input = document.getElementById(p.id)
 
@@ -91,6 +91,10 @@ function insertInput (callback = () => {}) {
       input.className = 'line'
 
       switch (option) {
+        case '':
+        insertInput()
+        break;
+
         case '1': 
           insertNewLine(showExperiences(), 0, () => {
             input.className = 'line'
@@ -113,7 +117,9 @@ function insertInput (callback = () => {}) {
 
           case 'exit': 
           insertNewLine('Muito obrigado pela sua atenção!', 0, insertInput)
-          window.close()
+          setTimeout(() => {
+            window.close()
+          }, 2500)
           break;
 
           default: 
