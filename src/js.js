@@ -20,11 +20,11 @@ const workExp = [
 
 const graduation = [
   {
-    course: "Análise e desenvolvimento de sistemas - Unisanta - 2020 - Atualmente",
+    course: "Análise e desenvolvimento de sistemas - Unisanta - 2020 - Atualmente"
   },
 
   {
-    course: "Técnico em Automação Industrial - Senai CETEMP - 2018 - 2019",
+    course: "Técnico em Automação Industrial - Senai CETEMP - 2018 - 2019"
   }
 ]
 
@@ -88,7 +88,6 @@ function regularWrite (txt, element, keepUnderline, callback) {
 }
 
 function insertInput (callback) {  
-  const rgx = new RegExp('[a-zA-Z0-9]','g')
   const p = document.createElement('p')
   p.className = 'line active'
   content.appendChild(p)
@@ -106,10 +105,8 @@ function insertInput (callback) {
         break;
 
         case '1': 
-          insertNewLine(showExperiences(), 2, 0, () => {
-            p.className = 'line'
-            insertInput()
-          })
+          showExperiences()
+          insertInput()
           break;
 
           case '2': 
@@ -131,11 +128,15 @@ function insertInput (callback) {
           }) 
           break;
 
+          case 'cls':
+          cls()
+          break;
+
           case 'exit': 
           insertNewLine('Muito obrigado pela sua atenção!', 2, 0, () => {
           setTimeout(() => {
             window.close()
-          }, 2500)
+          }, 1000)
           })
           break;
 
@@ -162,14 +163,51 @@ function insertNewLine (txt, keepUnderline, typeOrRegular, callback = () => {}) 
     }
 }
 
-function showExperiences () {
-  let txt = ''
+// function showExperiences () {
+//   let txt = ''
 
-  workExp.forEach(({nome, periodo, atribuicoes}) => {
-    txt += `${nome}, ${periodo}, ${atribuicoes}, `
+//   workExp.forEach(({nome, periodo, atribuicoes}) => {
+//     txt += `${nome}, ${periodo}, ${atribuicoes}, `
+//   })
+
+//   return txt.slice(0, -2)
+// }
+
+function showExperiences () {
+  const tb = document.createElement('table')
+  tb.className = 'blockProfessional'
+  const theader = document.createElement('theader')
+  theader.className = 'tbHeader'
+  const tbody = document.createElement('tbody')
+  tbody.className = 'tbBody'
+  const tdName = document.createElement('td')
+  const tdPeriod = document.createElement('td')
+  const tdAttr = document.createElement('td')
+  tdName.textContent = 'Empresa'
+  tdPeriod.textContent = 'Periodo'
+  tdAttr.textContent = 'Atribuições'
+  theader.appendChild(tdName)
+  theader.appendChild(tdPeriod)
+  theader.appendChild(tdAttr)
+  tb.appendChild(theader)
+
+  workExp.forEach(item => {
+    const tr = document.createElement('tr')
+    tr.className = 'trContent'
+    const tdCompany = document.createElement('td')
+    const tdPeriodo = document.createElement('td')
+    const tdAt = document.createElement('td')
+    tdCompany.textContent = item.nome
+    tdPeriodo.textContent = item.periodo
+    tdAt.textContent = item.atribuicoes
+    tr.appendChild(tdCompany)
+    tr.appendChild(tdPeriodo)
+    tr.appendChild(tdAt)
+    tbody.appendChild(tr)
   })
 
-  return txt.slice(0, -2)
+  tb.appendChild(tbody)
+  content.appendChild(tb)
 }
 
 function showGraduation () {
@@ -192,6 +230,27 @@ function showSkills () {
   return txt
 }
 
+function cls () {
+  content.textContent = ''
+  const p1 = document.createElement('p')
+  p1.textContent = txt1
+  p1.className = 'line'
+  const p2 = document.createElement('p')
+  p2.textContent = txt2
+  p2.className = 'line'
+  const p3 = document.createElement('p')
+  p3.textContent = txt3
+  p3.className = 'line'
+  const p4 = document.createElement('p')
+  p4.textContent = txt4
+  p4.className = 'line'
+  content.appendChild(p1) 
+  content.appendChild(p2) 
+  content.appendChild(p3) 
+  content.appendChild(p4) 
+  insertInput()
+}
+
 function showInfo () {
   return 'Telefone:(51) 99419-4479 / Email: contato.guilhermeblanco@gmail.com / Github: github.com/guilhermesblanco'
 }
@@ -204,4 +263,10 @@ insertNewLine (txt1, 0, 1, () => {
       })
     })
   })
+})
+
+
+
+window.addEventListener('paste', e => {
+  console.log(e.clipboardData.getData('text'))
 })
