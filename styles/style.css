@@ -2,31 +2,25 @@ body {
     background: black;
 }
 
-.input {
-    background: black;
-    color: white;
-    outline: none;
-    border: none;
-    display: inline;
-    inline-color: black;
+::selection {
+    background: white;
+    color: black;
 }
 
 .content {
     width: 100%;
     height: 200px;
-    background: black;
     color: white;
     font-size: 18px;
     font-family: monospace;
 }
 
-p {
+.content p {
     cursor: default;
 }
 
-p::selection {
-    background: white;
-    color: black;
+.content p:last-child {
+    padding: 0 0 8px 0;
 }
 
 .active {
@@ -73,6 +67,39 @@ p::selection {
     display: inline-block;
     margin: 10px 0;
     width: 30%;
+}
+
+.infoBlock {
+    padding: 4px;
+    border: 1px dashed white;
+    min-width: 50%;
+}
+
+.infoBlock .trContent {
+    display: block;
+}
+
+.infoBlock .trContent:not(:first-child){
+    border-top: 1px dashed white;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.infoBlock .trContent .tdContent:first-child {
+    display: inline-block;
+    margin-right: 10px;
+    width: 20%;
+}
+
+.infoBlock .trContent .tdContent:last-child {
+    display: inline-block;
+    width: 70%;
+}
+
+.skillBlock {
+    width: 150px;
+    height: 150px;
+    
 }
 
 @keyframes blink {

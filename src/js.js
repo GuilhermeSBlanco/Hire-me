@@ -6,6 +6,12 @@ const txt4 = 'O que você quer saber de mim? [1] Experiências profissionais, [2
 
 const workExp = [
   {
+    nome: 'GVDasa Tecnologia em Software',
+    periodo: '2021 - Atualmente',
+    atribuicoes: 'Documentação e desenvolvimento de ERP\'s utilizando linguagem Delphi. Testes automatizados e Levantamento de requisitos.'
+  },
+
+  {
     nome: 'Spi Integradora de sistemas',
     periodo: '2019 - 2020',
     atribuicoes: 'Documentação e desenvolvimento de software para controladores lógicos'
@@ -20,11 +26,15 @@ const workExp = [
 
 const graduation = [
   {
-    course: "Análise e desenvolvimento de sistemas - Unisanta - 2020 - Atualmente"
+    course: "Análise e desenvolvimento de sistemas",
+    institution: 'Unisanta',
+    period: '2020 - Atualmente'
   },
 
   {
-    course: "Técnico em Automação Industrial - Senai CETEMP - 2018 - 2019"
+    course: "Técnico em Automação Industrial",
+    institution: 'Senai - CETEMP',
+    period: '2018 - 2019'
   }
 ]
 
@@ -61,6 +71,28 @@ const skills = [
 
 ]
 
+const info = [
+  {
+    type: 'Telefone',
+    value: '51 99419-4479'
+  },
+  
+  {
+    type: 'Email',
+    value: 'contato.guilhermeblanco@gmail.com'
+  },
+  {
+    type: 'Github',
+    value: 'github.com/guilhermesblanco'
+  },
+  
+  {
+    type: 'Linked.in',
+    value: 'www.linkedin.com/in/guilherme-blanco-279117164/'
+  }
+
+]
+
 function typeWrite (txt, element, keepUnderline, callback) {
   let i = 0
 
@@ -91,6 +123,7 @@ function insertInput (callback) {
   const p = document.createElement('p')
   p.className = 'line active'
   content.appendChild(p)
+  p.scrollIntoView()
   document.addEventListener('keyup', function handleKey(e) {
     if (e.keyCode === 8) {
       p.textContent = p.textContent.slice(0, -1)
@@ -99,54 +132,52 @@ function insertInput (callback) {
       let option = p.textContent;
       p.className = 'line'
 
-      switch (option.toLowerCase()) {
+      switch (option.toLowerCase ().trim ()) {
         case '':
-        insertInput()
+        insertInput ()
         break;
 
         case '1': 
-          showExperiences()
-          insertInput()
+          showExperiences ()
+          insertInput ()
           break;
 
           case '2': 
-          insertNewLine(showSkills(), 2, 0, () => {
+          insertNewLine (showSkills(), 2, 0, () => {
             p.className = 'line'
-            insertInput()
+            insertInput ()
           })
           break;
 
           case '3':
-          insertNewLine(showGraduation(), 2, 0, () => {
-            insertInput()
-          }) 
+          showGraduation ()
+          insertInput () 
           break;
 
           case '4':
-          insertNewLine(showInfo(), 2, 0, () => {
-            insertInput()
-          }) 
+          showInfo()
+          insertInput()
           break;
 
           case 'cls':
-          cls()
+          cls ()
           break;
 
           case 'exit': 
           insertNewLine('Muito obrigado pela sua atenção!', 2, 0, () => {
-          setTimeout(() => {
-            window.close()
+          setTimeout ( () => {
+            window.close ()
           }, 1000)
           })
           break;
 
           default: 
-          insertNewLine('Opção inválida', 0, 2, insertInput)
+          insertNewLine ('Opção inválida', 0, 2, insertInput)
       }
 
     } else {
-      if(e.key.length === 1)
-        p.textContent += e.key
+      if (e.key.length === 1)
+         p.textContent += e.key
     }
   })
 }
@@ -162,16 +193,6 @@ function insertNewLine (txt, keepUnderline, typeOrRegular, callback = () => {}) 
       regularWrite(txt, p, keepUnderline, callback)
     }
 }
-
-// function showExperiences () {
-//   let txt = ''
-
-//   workExp.forEach(({nome, periodo, atribuicoes}) => {
-//     txt += `${nome}, ${periodo}, ${atribuicoes}, `
-//   })
-
-//   return txt.slice(0, -2)
-// }
 
 function showExperiences () {
   const tb = document.createElement('table')
@@ -211,14 +232,42 @@ function showExperiences () {
 }
 
 function showGraduation () {
-  let txt = ''
+  const tb = document.createElement('table')
+  tb.className = 'blockProfessional'
+  const theader = document.createElement('theader')
+  theader.className = 'tbHeader'
+  const tbody = document.createElement('tbody')
+  tbody.className = 'tbBody'
+  const tdName = document.createElement('td')
+  const tdPeriod = document.createElement('td')
+  const tdAttr = document.createElement('td')
+  tdName.textContent = 'Curso'
+  tdPeriod.textContent = 'Instituição'
+  tdAttr.textContent = 'Periodo'
+  theader.appendChild(tdName)
+  theader.appendChild(tdPeriod)
+  theader.appendChild(tdAttr)
+  tb.appendChild(theader)
 
-  graduation.forEach(({course}) => {
-    txt += `${course}, `
+  graduation.forEach(item => {
+    const tr = document.createElement('tr')
+    tr.className = 'trContent'
+    const tdCourse = document.createElement('td')
+    const tdInstitution = document.createElement('td')
+    const tdPeriod = document.createElement('td')
+    tdCourse.textContent = item.course
+    tdInstitution.textContent = item.institution
+    tdPeriod.textContent = item.period
+    tr.appendChild(tdCourse)
+    tr.appendChild(tdInstitution)
+    tr.appendChild(tdPeriod)
+    tbody.appendChild(tr)
   })
 
-  return txt.slice(0, -2)
+  tb.appendChild(tbody)
+  content.appendChild(tb)
 }
+
 
 function showSkills () {
   let txt = ''
@@ -252,7 +301,23 @@ function cls () {
 }
 
 function showInfo () {
-  return 'Telefone:(51) 99419-4479 / Email: contato.guilhermeblanco@gmail.com / Github: github.com/guilhermesblanco'
+  const tb = document.createElement('table')
+  tb.className = 'infoBlock'
+  info.forEach ( ({type, value}) => {
+    const tr = document.createElement('tr')
+    tr.className = 'trContent'
+    const tdType = document.createElement('td')
+    const tdValue = document.createElement('td')
+    tdType.className = 'tdContent'
+    tdValue.className = 'tdContent'
+    tdType.textContent = type + ': ';
+    tdValue.textContent = value
+    tr.appendChild(tdType)
+    tr.appendChild(tdValue)
+    tb.appendChild(tr)
+  })
+  
+  content.appendChild(tb)
 }
 
 insertNewLine (txt1, 0, 1, () => {
@@ -263,10 +328,4 @@ insertNewLine (txt1, 0, 1, () => {
       })
     })
   })
-})
-
-
-
-window.addEventListener('paste', e => {
-  console.log(e.clipboardData.getData('text'))
 })
